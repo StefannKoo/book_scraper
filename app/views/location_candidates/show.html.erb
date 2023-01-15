@@ -1,0 +1,28 @@
+ <div>
+<div style="display:flex; width:auto;background-color:white; border-bottom:2px solid rgb(144,144,144);justify-content: start;" class="mt-2 " >
+<% @publisher.platforms.each do |p| %>
+    <div class="text-center" style="height:100px;border-right:2px solid rgb(144,144,144);">
+        <%=image_tag(p.logo, style:"height:100%;width:100%;") %>
+    </div> 
+    <% end %>
+</div>
+<div style="display:flex;flex-direction:row; flex-wrap:wrap;justify-content:start" class="mt-2">
+<% @book_platform.each do |bp| %>
+    <% bp.location_candidates.each do |lc| %>
+        <% if lc.image? %>
+        <div style="width:200px;height:300px;border:1px solid black;margin:5px;">
+        <a href="https://www.barnesandnoble.com/<%=lc.url %>" >
+        <div style="width:170px;height:250px;margin-left:auto;margin-right:auto;">
+             <%=image_tag(lc.image, style:"height:100%;width:100%;") %>
+         <div>
+      <!--   <p><%=lc.name %></p> -->
+         </div>
+        </div>
+        </a>
+        <%=button_to "Aprove",platform_book_location_candidate_path(bp,lc),method:"put",class:"btn btn-primary mt-2", style:"width:80%" %>
+        </div>
+        <% end %>    
+    <% end %>
+<% end %>
+</div>
+</div> 

@@ -10,7 +10,6 @@ class TerritoriesController<ApplicationController
     end
 
     def create 
-        puts "Parametri: #{params}"
         @territory=Territory.new(territory_params)
         if @territory.save && @territory.valid?
             flash[:notice]="The territory is added"
@@ -34,7 +33,7 @@ class TerritoriesController<ApplicationController
        end
     end
     def destroy
-        if @territory.destroy
+        if @territory.destroy 
             flash[:notice]="Territory was destroyed"
         else
             flash[:notice]="Unable to delete #{@territory.name}"

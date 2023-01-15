@@ -1,50 +1,39 @@
+<div class="mt-3" style="border-top:5px solid rgb(200,200,200); border-right:4px solid rgb(200,200,200)">
+    <div class="p-2" style="background-color:white;">
+    <h4 class="text-start">Publishers </h4>
+    <table class="table text-info  rounded">
+      <thead class="text-center">
+        <tr>
+          <th scope="col">Number</th>
+          <th scope="col">Name</th>
+          <th scope="col">Adress</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+    
+      <% i=1 %>
+      <% @publishers.each do |p|  %>
+      <tbody >
+        <tr class="text-center h6">
+          <th scope="row" class="text-secondary" style="text-align:center;vertical-align:middle;"><%=i %></th>
+          <td style="text-align:center;vertical-align:middle;">
+            <%=link_to p.name, publisher_path(p), class:"text-decoration-none text-info"  %>
+          </td>
+          <% i+=1 %>
+          <td class="text-secondary"  style="text-align:center;vertical-align:middle;">
+          <%= p.adress  %>
+          </td>
+          <td style="text-align:center;vertical-align:middle;">
+          <%= link_to publisher_path(p),data:{turbo_method: :delete},class:"nav-link" do %>
+            <i class="fa-sharp fa-solid fa-trash " style="color:red"></i>
+          <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br>
 
-<% if flash[:notice] %>
-<div class="alert alert-success mt-2 text-center" role="alert">
-  <%=flash[:notice] %>
-</div>
-<% end %>
-<br>
-<div  style="border-top:5px solid rgb(200,200,200); border-right:4px solid rgb(200,200,200)">
-<div class="p-2" style="background-color:white;">
-<h4 class="text-start">Publishers </h4>
-<table class="table text-info  rounded">
-  <thead class="text-center">
-    <tr>
-      <th scope="col">Number</th>
-      <th scope="col">Publisher Name</th>
-      <th scope="col">Publishers Books</th>
-      <th scope="col">Add</th>
-      <th scope="col">Delete</th>
-    </tr>
-  </thead>
-
-  <% i=1 %>
-  <% @publishers.each do |p|  %>
-  <tbody >
-    <tr class="text-center h6">
-      <th scope="row"><%=i %></th>
-      <td >
-      <%=link_to p.name, publisher_path(p), class:"text-decoration-none text-info"  %>
-      </td>
-      <% i+=1 %>
-      <td><%= link_to publisher_books_path(p),class:"nav-link pl-0 " do %> 
-        <i class="fa-sharp fa-solid fa-eye text-info"></i>
-      <% end %>   
-      </td>
-      <td><%= link_to new_publisher_book_path(p),class:"nav-link" do %>
-       <i class="fa-regular fa-plus text-info"></i>
-       <% end %>
-      </td>
-      <td><%= link_to publisher_path(p),data:{turbo_method: :delete},class:"nav-link" do %>
-        <i class="fa-sharp fa-solid fa-trash text-info"></i>
-      <% end %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
-<br>
- <%= link_to 'New publisher',new_publisher_path, class:'nav-link btn btn-info w-25 text-light'  %>
- </div>
-</div>
+     <%= link_to 'New publisher',new_publisher_path, class:'nav-link btn btn-info w-25 text-light'  %> 
+     </div>
+    </div>

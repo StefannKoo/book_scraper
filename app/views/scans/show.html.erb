@@ -1,0 +1,112 @@
+<%= button_to "<<", publisher_scans_path(@publisher),method:"get",class:"nav-link btn btn-success text-light mt-2" %>
+<div class="" style="background-color:white" style:"min-height:50%">
+<div class="mt-3" style="border-top:5px solid rgb(200,200,200); border-right:4px solid rgb(200,200,200)">
+<div class="p-2" style="background-color:white;">
+<h4 class="text-start">Audit scans </h4>
+
+<table class="table text-info  rounded">
+<div style="display:flex;justify-content:flex-end">
+<%= link_to "Analyze scan ", analyze_publisher_scan_path(@publisher,@scan),method:"get",class:"nav-link btn btn-success text-light  text-center" %>
+
+</div>
+  <thead class="text-center">
+    <tr>
+      <th scope="col">Number</th>
+      <th scope="col">Audit name</th>
+      <th scope="col">Scan date</th>
+      <th scope="col">Hardcover</th>
+      <th scope="col">Paperback</th>
+      <th scope="col">EBook</th>
+      <th scope="col">Audio CD</th>
+      <th scope="col">Largeprint</th>
+      <th scope="col">Image</th>
+      <th scope="col">Platform</th>
+    </tr>
+  </thead>
+
+  <% i=1 %>
+  <% @scan.audits.each do |a|  %>
+  <tbody >
+    <tr class="text-center h6">
+      <th scope="row" class="text-secondary" style="text-align:center;vertical-align:middle;"><%=i %></th>
+      <td style="text-align:center;vertical-align:middle;">
+      <%=link_to a.platform_book.name, publisher_scan_audit_path(@publisher,@scan,a), class:"text-decoration-none text-info"  %>
+      </td>
+      <% i+=1 %>
+      </td>
+      <td class="text-secondary" style="text-align:center;vertical-align:middle;"><%=@scan.date%>
+      </td>
+      <% if a.audit_prices.count>=1 %>
+      <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+        <% if a.audit_actions.includes(:audit_price).where(audit_prices:{variant:"hardcover"}).any? %>
+        <p style="color:red"> <%=a.audit_prices.find_by(variant:"hardcover")&.amount%></p>
+        <% else %>
+        <p > <%=a.audit_prices.find_by(variant:"hardcover")&.amount%></p>
+        <% end %>
+      </td>
+      <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+      <% if a.audit_actions.includes(:audit_price).where(audit_prices:{variant:"paperback"}).any? %>
+           <p style="color:red"> <%=a.audit_prices.find_by(variant:"paperback")&.amount%> </p>
+      <% else %>
+        <p > <%=a.audit_prices.find_by(variant:"paperback")&.amount%></p>
+      <% end %>
+      </td>
+      <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+      <% if a.audit_actions.includes(:audit_price).where(audit_prices:{variant:"e_book"}).any? %>
+        <p style="color:red"> <%=a.audit_prices.find_by(variant:"e_book")&.amount%></p>
+         <% else %>
+        <p > <%=a.audit_prices.find_by(variant:"e_book")&.amount%></p>
+       <% end %>
+       </td>
+     <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+     <% if a.audit_actions.includes(:audit_price).where(audit_prices:{variant:"audio_cd"}).any? %>
+        <p style="color:red;"><%=a.audit_prices.find_by(variant:"audio_cd")&.amount%></p>
+        <% else %>
+        <p > <%=a.audit_prices.find_by(variant:"audio_cd")&.amount%></p>
+      <% end %>
+     </td>
+    <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+    <% if a.audit_actions.includes(:audit_price).where(audit_prices:{variant:"large_print"}).any? %>
+       <p style="color:red;"> <%=a.audit_prices.find_by(variant:"large_print")&.amount%></p>
+       <% else %>
+       <p > <%=a.audit_prices.find_by(variant:"large_print")&.amount%></p>
+    <% end %>
+     </td>
+     <% else %>
+     <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+     <%=a.price%>
+     <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+     -
+    </td>
+    <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+    -
+    </td>
+    <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+    -
+    </td>
+    <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+    -
+    </td>
+     </td>
+     <% end %>
+     <td class="text-center" style:"">
+     <div style="width:60px;height:100px;margin-left:auto;margin-right:auto;">
+         <%=image_tag(a.image, style:"height:100%;width:100%;") %>
+     </div>
+      </td>
+      <!-- <td  style="text-align:center;vertical-align:middle;"> 
+           <%= link_to  publisher_book_location_candidates_path(@publisher,a), class:"text-decoration-none text-info" do %>
+               <i class="fa-solid fa-eye"></i>
+            <% end %>
+       </td> -->
+        <td style="text-align:center;vertical-align:middle;" class="text-secondary">
+          <%=a.platform_book.platform.name %>
+       </td> 
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+ </div>
+</div>
+</div>

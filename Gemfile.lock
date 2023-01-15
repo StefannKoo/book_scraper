@@ -83,16 +83,22 @@ GEM
       xpath (~> 3.2)
     childprocess (4.1.0)
     concurrent-ruby (1.1.10)
+    connection_pool (2.3.0)
     crass (1.0.6)
     debug (1.6.2)
       irb (>= 1.3.6)
       reline (>= 0.3.1)
     erubi (1.11.0)
+    fast_excel (0.4.0)
+      ffi (> 1.9, < 2)
     ffi (1.15.5-x86-mingw32)
     font-awesome-sass (6.2.1)
       sassc (~> 2.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    httparty (0.20.0)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.1.5)
@@ -112,16 +118,20 @@ GEM
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
+    mime-types (3.4.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
     minitest (5.16.3)
     msgpack (1.6.0)
+    multi_xml (0.6.0)
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.1.3)
       timeout
-    net-smtp (0.3.2)
+    net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.8)
     nokogiri (1.13.8-x86-mingw32)
@@ -161,6 +171,9 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
+    redis (4.8.0)
+    redis-client (0.11.2)
+      connection_pool
     regexp_parser (2.6.0)
     reline (0.3.1)
       io-console (~> 0.5)
@@ -173,6 +186,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sidekiq (7.0.1)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.9.0)
     sprockets (4.1.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -180,6 +198,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    statesman (10.0.0)
     stimulus-rails (1.1.0)
       railties (>= 6.0.0)
     thor (1.2.1)
@@ -205,6 +224,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    will_paginate (3.3.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.1)
@@ -216,19 +236,26 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  fast_excel
   font-awesome-sass (~> 6.2.1)
+  httparty
   importmap-rails
   jbuilder
+  nokogiri (~> 1.13, >= 1.13.8)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4)
+  redis
   selenium-webdriver
+  sidekiq
   sprockets-rails
+  statesman (~> 10.0.0)
   stimulus-rails
   turbo-rails
   tzinfo-data
   web-console
   webdrivers
+  will_paginate (~> 3.3)
 
 RUBY VERSION
    ruby 3.1.2p20

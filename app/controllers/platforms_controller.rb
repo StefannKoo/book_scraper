@@ -23,7 +23,7 @@ class PlatformsController<ApplicationController
     end
 
     def update
-        puts "parametriii"
+        
         if @platform.update(platform_params.merge(territory_id:params[:territory][:territory_id]))
             redirect_to platforms_path
         else
@@ -33,12 +33,24 @@ class PlatformsController<ApplicationController
     end
 
     def destroy
-        if @platform.destroy
-            flash[:notice]="Destroyed"
-        else
-            flash[:notice]="Not destroyed"
-        end
-        redirect_to platforms_path
+       # if !params[:publisher_id]
+    #        @publisher_platform=PublisherPlatform.where(publisher_id:params[:id],platform_id:params[:publisher_id])
+    #        if @publisher_platform.destroy
+    #          puts "Obrisana platforma"
+    #        else
+    #        puts "Gresla pri brisanju "
+    #       end
+    #    else
+    #        set_platform
+           if @platform.destroy
+                 flash[:notice]="Destroyed"
+           else
+                flash[:notice]="Not destroyed"
+            end
+            redirect_to platforms_path
+      #  end
+      #  end
+       
     end
     
     private

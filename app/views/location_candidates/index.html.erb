@@ -1,0 +1,40 @@
+<div style="background-color:white">
+<%= button_to "<<", publisher_path(@publisher),method:"get",class:"nav-link btn btn-success text-light mt-2 ms-2" %>
+<div style="display:flex; justify-content: start; background-color:white">
+<div style="width:300px;border-right:2px solid rgb(144,144,144)"></div>
+<% @publisher.platforms.each do |p| %>
+    <div style="width:190px;border-right:2px solid rgb(144,144,144)"><%= image_tag(p.logo, style:"height:100%;width:100%;") %></div>
+ <% end %>
+ </div>
+ <% @publisher.books.each do |b| %>
+ <div style="display:flex; background-color:white;border-top:2px solid rgb(144,144,144)" >
+<div style="width:300px;justify-self:start;border-right:2px solid rgb(144,144,144)"><p class="fw-bold"><%=b.name %></p></div>
+<% b.platform_books.each do |bp| %>
+    <% if !bp.in_state?(:approved) %>
+        <a href="/publishers/<%=@publisher.id %>/books/<%=b.id%>/location_candidates">
+        <div style="width:190px;">
+        <div style="width:170px;height:270px;margin-left:auto;margin-right:auto;margin-top:5px;margi-bottom:5px;position:relative;">
+        <% if bp.location_candidates[0]&.image %>
+                <%=image_tag(bp.location_candidates[0].image, style:"height:100%;width:100%;") %>
+        <% end %>
+        <div style="position:absolute;bottom:5px; color:white; font-size:25px;font-weight:bold;background-color:green"><%=bp.current_state%></div>
+        </div>
+        </div> 
+        </a>
+    <% else %>
+        <a href="/publishers/<%=@publisher.id %>/books/<%=b.id%>/location_candidates">
+        <div style="width:190px;">
+        <div style="width:170px;height:270px;margin-left:auto;margin-right:auto;margin-top:5px;margi-bottom:5px;position:relative;">
+        <% if bp.image %>
+                <%=image_tag(bp.image, style:"height:100%;width:100%;") %>
+        <% end %>
+        <div style="position:absolute;bottom:5px; color:white; font-size:25px;font-weight:bold;background-color:green"><%=bp.current_state%></div>
+        </div>
+        </div> 
+        </a>
+    <% end %>
+<% end %>
+ </div>
+ <% end %>
+ </div>
+

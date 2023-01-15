@@ -1,35 +1,32 @@
-<% if flash[:notice] %>
-<div class="alert alert-success text-center mt-2" role="alert">
-  <%= flash[:notice] %>
-</div>
-<% end %>
-<div class="container p-5 w-50 mt-5 rounded border border-info"> 
+<div class="container p-3 w-50 mt-3  rounded border border-info" style="background-color:white"> 
 <div class="text-center font-bold">
     <h3>New Book</h3>
 </div>
-    <%=form_with model:@book,url:publisher_books_path do |f|%>
+    <%=form_with model:@book,url:publisher_books_path(@publisher_id) do |f|%>
         <div class="form-group text-start">
             <%= f.label:name, class:"fw-bold"%>
             <%= f.text_field:name ,placeholder:"Insert Name",class:"form-control border border-info" %>
         </div>
         <br>
         <div class="form-group text-start">
-            <%= f.label:date,class:"fw-bold" %>
-            <%= f.date_field:date,class:"form-control border border-info" %>
+       
+        <%= f.label:date,class:"fw-bold" %>
+        <%= f.date_field:date,class:"form-control border border-info" %>
+
         </div>
         <br>
-
+ 
         <div class="form-check text-start">
             <%=f.label:ebook,class:"fw-bold" %>
-            <%= f.check_box:ebook,class:"form-check-input " %>
-        </div>
+            <%= f.check_box:ebook,class:"form-check-input" %>
+         </div><br>
         <div class="text-start">
             <%=f.label:image,class:"fw-bold" %><br>
             <%=f.file_field:image %>
         </div>
 
         <div>
-        <%=f.submit "Add book",class:"btn btn-secondary mt-1"%>
+        <%=f.submit "Add Book",class:"btn btn-secondary mt-1"%>
         </div>
     <% end %>
 </div>

@@ -1,21 +1,129 @@
-<table class="table">
-  <thead class="thead-dark">
+<div class="row p-2" >
+<div class="col-3 " style="">
+    <div style="height:44%; border: 2px solid rgb(144,144,144); background-color:white; " class="">
+        <div  style="height:40%;" class="p-2">
+            <div style="width:50%;height:100%;margin-left:auto;margin-right:auto;">
+                <%=image_tag(@publisher.photo, style:"height:100%;width:100%;") %>
+            </div>
+        </div>
+        <div style="height:60%;"  >
+            <div style="height:33%;" class="row p-3">
+                <div class="col-6   fw-bold" style="text-align:left">Name</div>
+                <div class="col-6 text-right  "><%=@publisher.name %></div>
+            </div>
+            <div style="height:33%;" class="row p-3 border-top">
+                <div class="col-6  fw-bold text-left " style="text-align:left">Adress</div>
+                <div class="col-6 text-right  "><%=@publisher.adress %></div>
+           </div>
+            <div style="height:33%;" class="text-center border-top m-2">
+                <%=button_to "Edit", edit_publisher_path(@publisher), method:"get", class:"btn btn-primary w-100" %>
+            </div>
+        </div>
+    </div>
+    <div style="height:380px;  background-color:white;border: 2px solid rgb(144,144,144);" class="mt-3" >
+        <h3><%=@publisher.platforms.count %> Platforms </h3>
+          <div class="h-50 overflow-auto mb-4",style:"border-top:2px solid rgb(80,80,80);">
+            <table class="table p-3 w-75">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Region</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @publisher.platforms.each do |p| %>
+            <tr style=";">
+                <td><%=p.name %></td>
+                <td><%=p.territory.name %></td>
+                <td style="text-align:center;vertical-align:middle;">
+                <%= link_to publisher_platform_path(p),data:{turbo_method: :delete},class:"nav-link" do %>
+                  <i class="fa-sharp fa-solid fa-trash " style="color:red"></i>
+                <% end %>
+                </td>
+            </tr>
+            <% end %>
+            </tbody>
+        </table>
+        </div>
+        <div class="text-start p-2">
+        <%= form_tag('/publisher_platforms') do %>
+          <%=hidden_field_tag "publisher_id", @publisher.id  %>
+          <input type="hidden" name="publisher_id" value="<%=@publisher.id %>">
+          <%=select_tag "platform", options_from_collection_for_select(Platform.all, "id", "name"), prompt: "Select platform",class:"form-select"  %>
+          <div class="mt-1 text-center">
+          <%= submit_tag 'Add platform', class:"btn btn-primary" %>
+          </div>
+        <% end %>
+        </div>
+            
+    </div>
+</div>
+<!--- Books -->
+<div class="col-9" style="background-color:white" style:"min-height:50%">
+<div class="mt-3" style="border-top:5px solid rgb(200,200,200); border-right:4px solid rgb(200,200,200)">
+<div class="p-2" style="background-color:white;">
+<h4 class="text-start">Books </h4>
+
+<div style="display:flex;justify-content: space-between;margin-bottom:30px;">
+<%= link_to 'New Book',new_publisher_book_path(@publisher), class:'nav-link btn btn-success w-25 text-light mr-3'  %>
+<%= link_to 'Candidates',publisher_location_candidates_path(@publisher), class:'nav-link btn btn-success w-25 text-light ' %>
+<%=button_to 'Scan',publisher_scans_path(@publisher),method:"post", class:"nav-link btn btn-success text-light" %>
+<%=button_to 'View Scans',publisher_scans_path(@publisher),method:"get", class:"nav-link btn btn-success text-light" %>
+</div>
+
+<table class="table text-info  rounded">
+  <thead class="text-center">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Publisher</th>
-      <th scope="col">Adress</th>
-      <th scope="col">Edit</th>
+      <th scope="col">Number</th>
+      <th scope="col">Name</th>
+      <th scope="col">Date</th>
+      <th scope="col">Ebook?</th>
+      <th scope="col">Photo</th>
+      <th scope="col">Delete</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td><%= @publisher.name %></td>
-      <td><%=@publisher.adress %></td>
-      <td><%= link_to 'Edit',edit_publisher_path,class:"nav-link" %></td>
+
+  <% i=1 %>
+  <% @publisher.books.each do |b|  %>
+  <tbody >
+    <tr class="text-center h6">
+      <th scope="row" class="text-secondary" style="text-align:center;vertical-align:middle;"><%=i %></th>
+      <td style="text-align:center;vertical-align:middle;">
+      <%=link_to b.name, edit_territory_path(b), class:"text-decoration-none text-info"  %>
+      </td>
+      <% i+=1 %>
+      </td>
+      <td class="text-secondary" style="text-align:center;vertical-align:middle;"><%=b.date %>
+      </td>
+      <td class="text-secondary" style="text-align:center;vertical-align:middle;">
+         <% if b.ebook? %>
+         Yes
+         <% else %>
+         No
+         <%end %>
+      </td>
+     <td class="text-center" style:"">
+     <div style="width:60px;height:80px;margin-left:auto;margin-right:auto;">
+        <%=image_tag(b.image, style:"height:100%;width:100%;") %>
+     </div>
+      </td>
+      <!-- <td  style="text-align:center;vertical-align:middle;"> 
+           <%= link_to  publisher_book_location_candidates_path(@publisher,b), class:"text-decoration-none text-info" do %>
+               <i class="fa-solid fa-eye"></i>
+            <% end %>
+       </td> -->
+        <td style="text-align:center;vertical-align:middle;">
+          <%= link_to publisher_book_path(@publisher,b),data:{turbo_method: :delete},class:"nav-link" do %>
+            <i class="fa-sharp fa-solid fa-trash " style="color:red"></i>
+          <% end %>
+       </td> 
     </tr>
- 
+    <% end %>
   </tbody>
 </table>
-  </tbody>
-</table>
+<br>
+ </div>
+</div>
+</div>
+</div>

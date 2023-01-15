@@ -7,47 +7,36 @@
     </div>
 <% end %>
  
- <div class="container p-5 w-50 border border-info mt-2" style="background-color:white"> 
-    <div class="text-center font-bold ">
-        <h3>New publisher</h3>
-    </div>
-        <%=form_for @publisher,  url: publishers_path do |f|%>
-            <div class="form-group text-start">
-                <%= f.label:name, class:"fw-bold  "%>
-                <%= f.text_field:name ,placeholder:"Publishers Name",class:"form-control border border-info" %>
-            </div>
-            <br>
-            <div class="form-group text-start">
-                <%= f.label:adress,class:"fw-bold" %>
-                <%= f.text_field:adress,placeholder:"Adress of publisher",class:"form-control border border-info" %>
-            </div>
-            <br>
-            <div>
-            </div>
-            <div class="text-center font-bold text-start">
-                 <h3>Books </h3>
-            </div>
-                <%= f.fields_for :books do |b| %>
-                    <div class="form-group text-start">
-                        <%= b.label:name, class:"fw-bold"%>
-                        <%= b.text_field:name ,placeholder:"Insert Name",class:"form-control border border-info" %>
-                     </div>
-                <br>
-                <div class="form-group text-start">
-                    <%= b.label:date,class:"fw-bold" %>
-                    <%= b.date_field:date,class:"form-control border border-info" %>
-                </div>
-                <br>
-        
-                <div class="form-check  text-start">
-                    <%=b.label:ebook,class:"fw-bold" %>
-                    <%= b.check_box:ebook,class:"form-check-input " %>
-                </div>
-                <div class="text-start">
-                    <%=b.label:image,class:"fw-bold" %><br>
-                    <%=b.file_field:image %>
-                </div>
-                <% end %>
-            <%=f.submit "Create",class:"btn btn-secondary mt-2 border border-info"%>
-        <% end %>
-  </div>
+<% if flash[:notice] %>
+<div class="alert alert-success text-center mt-2" role="alert">
+  <%= flash[:notice] %>
+</div>
+<% end %>
+<div class="container p-3 w-50 mt-3  rounded border border-info" style="background-color:white"> 
+<div class="text-center font-bold">
+    <h3>New Publisher</h3>
+</div>
+    <%=form_with model:@publisher,url:publishers_path do |f|%>
+        <div class="form-group text-start">
+            <%= f.label:name, class:"fw-bold"%>
+            <%= f.text_field:name ,placeholder:"Insert Name",class:"form-control border border-info" %>
+        </div>
+        <br>
+        <div class="form-group text-start">
+            <%= f.label:adress,class:"fw-bold" %>
+            <%= f.text_field:adress,placeholder:"Insert adress",class:"form-control border border-info" %>
+        </div>
+        <br>
+
+        <div class="text-start">
+            <%=f.label:photo,class:"fw-bold" %><br>
+            <%=f.file_field:photo %>
+        </div>
+        <div class="text-center font-bold text-start">
+            <h3>Platforms </h3>
+        </div>
+        <div>
+        <%=f.submit "Add publisher",class:"btn btn-secondary mt-1"%>
+        </div>
+    <% end %>
+</div>

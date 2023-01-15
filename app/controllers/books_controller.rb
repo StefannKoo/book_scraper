@@ -12,6 +12,7 @@ class BooksController<ApplicationController
 
   def new
     @book=Book.new
+    @publisher_id=params[:publisher_id]
   end
 
   def show 
@@ -19,14 +20,31 @@ class BooksController<ApplicationController
   end
 
   def create
+      @publisher=Publisher.find(params[:publisher_id])   
       @book=Book.new(book_params.merge(publisher_id:params[:publisher_id]))
-      if @book.save && @book.valid?
+    
+      if @book.save && @book.valid?      
         flash[:notice]="The book was sucessfully added to publisher"
-        redirect_to publisher_books_path
+        @publisher.platforms.each do |p|
+          @platform_book= PlatformBook.new(platform_id:p.id,book_id:@book.id)
+          #Ovdje dodati prices u tabelu prices za platform_book i koliko ?
+          @platform_book.save
+          price=Price.new(amount:7.99,variant:"e_book",platform_book_id:@platform_book.id)
+          price.save!
+          price=Price.new(amount:32.99,variant:"hardcover",platform_book_id:@platform_book.id)
+          price.save!
+          price=Price.new(amount:34.99,variant:"paperback",platform_book_id:@platform_book.id)
+          price.save!
+          price=Price.new(amount:18.95,variant:"large_print",platform_book_id:@platform_book.id)
+          price.save!
+          price=Price.new(amount:11.95,variant:"audio_cd",platform_book_id:@platform_book.id)
+          price.save!
+          PlatformBookLokatorWorker.perform_async(@platform_book.id,params[:book][:name])
+        end
       else
         flash[:notice]="Unsucess !! There is some errors"
-        redirect_to new_publisher_book_path(params[:publisher_id])
       end
+      redirect_to publisher_path(params[:publisher_id])
   end
 
   def edit   
@@ -48,8 +66,10 @@ class BooksController<ApplicationController
       flash[:notice]="Book was deleted !!"
     else
       flash[:notice]="There is some problems"
+      puts "PROBLLLLEEEMMMSSS"
     end
-    redirect_to books_path
+
+    redirect_to publisher_path(params[:publisher_id])
   end
 
   private
